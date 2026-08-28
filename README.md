@@ -1,36 +1,82 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Nexora
 
-## Getting Started
+A multi-tenant SaaS project management platform built with Next.js, TypeScript, PostgreSQL, Prisma, and modern web technologies.
 
-First, run the development server:
+## Project Roadmap
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+### 🏗️ Foundation
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+* [x] Initialize Next.js project
+* [ ] Set up PostgreSQL
+* [ ] Set up Prisma
+* [ ] Design and implement database schema
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### 🔐 Authentication & Users
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+* [ ] Set up authentication
+* [ ] Create company registration
+* [ ] Create owner account
+* [ ] Implement login/logout
+* [ ] Implement sessions
+* [ ] Implement role-based authorization
+* [ ] Implement invitation system
 
-## Learn More
+### 🏢 Companies & Members
 
-To learn more about Next.js, take a look at the following resources:
+* [ ] Company dashboard
+* [ ] Manage company members
+* [ ] Invite users
+* [ ] Accept/reject invitations
+* [ ] Remove members
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### 📁 Projects
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+* [ ] Create project
+* [ ] View projects
+* [ ] Edit project
+* [ ] Delete project
+* [ ] Manage project members
+* [ ] Set project roles
 
-## Deploy on Vercel
+### ✅ Tasks
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+* [ ] Create task
+* [ ] Assign task to project members
+* [ ] View tasks
+* [ ] Edit task
+* [ ] Delete task
+* [ ] Update task status
+* [ ] Implement task permissions
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### 📊 Dashboard
+
+* [ ] Owner/Admin overview
+* [ ] Statistics
+* [ ] Member "My Tasks" view
+
+### 🎨 UI & UX
+
+* [ ] Responsive design
+* [ ] Loading states
+* [ ] Error states
+* [ ] Empty states
+* [ ] Form validation
+* [ ] Notifications
+
+### 🧪 Testing & Security
+
+* [ ] Validate server-side input
+* [ ] Test authorization rules
+* [ ] Test company data isolation
+* [ ] Handle edge cases
+* [ ] Review security-sensitive operations
+
+### 🚀 Finalization
+
+* [ ] Performance optimization
+* [ ] Image/font optimization
+* [ ] Final UI polish
+* [ ] Documentation
+* [ ] Deployment preparation
+
+---
