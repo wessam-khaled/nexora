@@ -1,0 +1,116 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Company {
+  id                Int             @id @default(autoincrement())
+  name              String
+  createdAt         DateTime        @default(now())
+
+  users             User[]
+  invitations       Invitation[]
+  projects          Project[]
+}
+
+model User {
+  id                Int             @id @default(autoincrement())
+  name              String
+  email             String          @unique
+  passwordHash      String
+  role              String
+  companyId         Int
+  createdBy         Int?
+  createdAt         DateTime        @default(now())
+
+  company           Company         @relation(fields: [companyId], references: [id])
+  createdByUser     User?           @relation("UserCreatedBy", fields: [createdBy], references: [id])
+  createdUsers      User[]          @relation("UserCreatedBy")
+  sentInvitations   Invitation[]    @relation("UserInvitations")
+  createdProjects   Project[]       @relation("ProjectCreatedBy")
+  projectMembers    ProjectMember[]
+  createdTasks      Task[]          @relation("TaskCreatedBy")
+  assignedTasks     Task[]          @relation("TaskAssignedTo")
+  comments          Comment[]
+}
+
+model Invitation {
+  id                Int             @id @default(autoincrement())
+  email             String
+  role              String
+  companyId         Int
+  createdBy         Int
+  status            String
+  expiresAt         DateTime  
+  createdAt         DateTime        @default(now())
+
+  company           Company         @relation(fields: [companyId], references: [id])
+  invitedBy         User            @relation("UserInvitations", fields: [createdBy], references: [id])
+
+}
+
+model Project {
+  id                Int             @id @default(autoincrement())
+  name              String
+  description       String?
+  status            String
+  companyId         Int
+  createdBy         Int
+  createdAt         DateTime        @default(now())
+  updatedAt         DateTime        @updatedAt
+
+  company           Company         @relation(fields: [companyId], references: [id])
+  creator           User            @relation("ProjectCreatedBy", fields: [createdBy], references: [id])
+  projectMembers    ProjectMember[]
+  tasks             Task[]          @relation("ProjectTasks")
+}
+
+model ProjectMember {
+  userId            Int
+  projectId         Int
+  projectRole       String
+
+  user              User            @relation(fields: [userId], references: [id])
+  project           Project         @relation(fields: [projectId], references: [id])
+
+  @@id([userId, projectId])
+}
+
+model Task {
+  id                Int           @id @default(autoincrement())
+  title             String
+  description       String?
+  status            String
+  priority          String
+  projectId         Int
+  createdBy         Int
+  assignedTo        Int?
+  dueDate           DateTime?
+  createdAt         DateTime      @default(now())
+  updatedAt         DateTime      @updatedAt
+
+  project           Project       @relation("ProjectTasks", fields: [projectId], references: [id])
+  creator           User          @relation("TaskCreatedBy", fields: [createdBy], references: [id])
+  assignee          User?         @relation("TaskAssignedTo", fields: [assignedTo], references: [id])
+  comments          Comment[]
+}
+
+model Comment {
+  id                Int           @id @default(autoincrement())
+  content           String
+  taskId            Int
+  userId            Int
+  createdAt         DateTime      @default(now())
+
+  task       Task                 @relation(fields: [taskId], references: [id])
+  user        User                @relation(fields: [userId], references: [id])
+}

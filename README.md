@@ -7,9 +7,9 @@ A multi-tenant SaaS project management platform built with Next.js, TypeScript, 
 ### 🏗️ Foundation
 
 * [x] Initialize Next.js project
-* [ ] Set up PostgreSQL
-* [ ] Set up Prisma
-* [ ] Design and implement database schema
+* [x] Set up PostgreSQL
+* [x] Set up Prisma
+* [x] Design and implement database schema
 
 ### 🔐 Authentication & Users
 
