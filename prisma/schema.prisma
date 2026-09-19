@@ -32,8 +32,8 @@ model User {
   createdBy         Int?
   createdAt         DateTime        @default(now())
 
-  company           Company         @relation(fields: [companyId], references: [id])
-  createdByUser     User?           @relation("UserCreatedBy", fields: [createdBy], references: [id])
+  company           Company         @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  createdByUser     User?           @relation("UserCreatedBy", fields: [createdBy], references: [id] , onDelete: SetNull)
   createdUsers      User[]          @relation("UserCreatedBy")
   sentInvitations   Invitation[]    @relation("UserInvitations")
   createdProjects   Project[]       @relation("ProjectCreatedBy")
@@ -41,6 +41,7 @@ model User {
   createdTasks      Task[]          @relation("TaskCreatedBy")
   assignedTasks     Task[]          @relation("TaskAssignedTo")
   comments          Comment[]
+  sessions          Session[]
 }
 
 model Invitation {
@@ -48,13 +49,14 @@ model Invitation {
   email             String
   role              String
   companyId         Int
-  createdBy         Int
+  createdBy         Int?
   status            String
   expiresAt         DateTime  
+  tokenHash         String          @unique
   createdAt         DateTime        @default(now())
 
-  company           Company         @relation(fields: [companyId], references: [id])
-  invitedBy         User            @relation("UserInvitations", fields: [createdBy], references: [id])
+  company           Company         @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  invitedBy         User?            @relation("UserInvitations", fields: [createdBy], references: [id] , onDelete: SetNull)
 
 }
 
@@ -64,12 +66,12 @@ model Project {
   description       String?
   status            String
   companyId         Int
-  createdBy         Int
+  createdBy         Int?
   createdAt         DateTime        @default(now())
   updatedAt         DateTime        @updatedAt
 
-  company           Company         @relation(fields: [companyId], references: [id])
-  creator           User            @relation("ProjectCreatedBy", fields: [createdBy], references: [id])
+  company           Company         @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  creator           User?            @relation("ProjectCreatedBy", fields: [createdBy], references: [id] , onDelete : SetNull)
   projectMembers    ProjectMember[]
   tasks             Task[]          @relation("ProjectTasks")
 }
@@ -79,38 +81,49 @@ model ProjectMember {
   projectId         Int
   projectRole       String
 
-  user              User            @relation(fields: [userId], references: [id])
-  project           Project         @relation(fields: [projectId], references: [id])
+  user              User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  project           Project         @relation(fields: [projectId], references: [id], onDelete: Cascade)
 
   @@id([userId, projectId])
 }
 
 model Task {
-  id                Int           @id @default(autoincrement())
+  id                Int             @id @default(autoincrement())
   title             String
   description       String?
   status            String
   priority          String
   projectId         Int
-  createdBy         Int
+  createdBy         Int?
   assignedTo        Int?
   dueDate           DateTime?
-  createdAt         DateTime      @default(now())
-  updatedAt         DateTime      @updatedAt
+  createdAt         DateTime        @default(now())
+  updatedAt         DateTime        @updatedAt
 
-  project           Project       @relation("ProjectTasks", fields: [projectId], references: [id])
-  creator           User          @relation("TaskCreatedBy", fields: [createdBy], references: [id])
-  assignee          User?         @relation("TaskAssignedTo", fields: [assignedTo], references: [id])
+  project           Project         @relation("ProjectTasks", fields: [projectId], references: [id], onDelete: Cascade)
+  creator           User?            @relation("TaskCreatedBy", fields: [createdBy], references: [id], onDelete: SetNull)
+  assignee          User?           @relation("TaskAssignedTo", fields: [assignedTo], references: [id], onDelete : SetNull)
   comments          Comment[]
 }
 
 model Comment {
-  id                Int           @id @default(autoincrement())
+  id                Int             @id @default(autoincrement())
   content           String
   taskId            Int
-  userId            Int
-  createdAt         DateTime      @default(now())
+  userId            Int?
+  createdAt         DateTime        @default(now())
 
-  task       Task                 @relation(fields: [taskId], references: [id])
-  user        User                @relation(fields: [userId], references: [id])
+  task              Task            @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  user              User?            @relation(fields: [userId], references: [id], onDelete: SetNull)
+}
+
+model Session {
+  id                String          @id
+  userId            Int
+  expiresAt         DateTime
+  createdAt         DateTime        @default(now())
+
+  user              User            @relation(fields: [userId], references: [id] , onDelete: Cascade )
+
+  @@index([userId])
 }
