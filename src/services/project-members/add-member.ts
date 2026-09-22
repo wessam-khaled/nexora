@@ -20,17 +20,17 @@ export async function addMember(input: {
   role?: ProjectUsersRole;
 }) {
   const currentUser = await requireAuth();
-  
-  const member = await findUserById(input.userId);
+
+  const member = await findUserById(input.userId, currentUser.companyId);
 
   if (!member || member.companyId !== currentUser.companyId) {
     throw new AppError("Member not found", 404, ERROR_CODES.NOT_FOUND);
   }
   const project = await findProjectById(input.projectId, currentUser.companyId);
-  
+
   if (!project) {
-      throw new AppError("Project not found", 404, ERROR_CODES.NOT_FOUND);
-    }
+    throw new AppError("Project not found", 404, ERROR_CODES.NOT_FOUND);
+  }
 
   const memberExists = await findProjectMember(member.id, project.id);
 
@@ -52,6 +52,13 @@ export async function addMember(input: {
     input.projectId,
   );
   if (isProjectManager) {
+    if (input.role === PROJECT_ROLES.MANAGER) {
+      throw new AppError(
+        "You can't promote a member to manager",
+        403,
+        ERROR_CODES.FORBIDDEN,
+      );
+    }
     return prisma.projectMember.create({
       data: {
         projectId: input.projectId,

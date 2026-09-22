@@ -44,7 +44,7 @@ export async function removeProjectMember(userId: number, projectId: number) {
     if (member.projectRole === PROJECT_ROLES.MANAGER) {
       throw new AppError("Forbidden", 403, ERROR_CODES.FORBIDDEN);
     }
-    return prisma.projectMember.delete({
+    await prisma.projectMember.delete({
       where: {
         userId_projectId: {
           userId: userId,
@@ -52,6 +52,7 @@ export async function removeProjectMember(userId: number, projectId: number) {
         },
       },
     });
+    return "Member removed successfully";
   }
   throw new AppError("Forbidden", 403, ERROR_CODES.FORBIDDEN);
 }

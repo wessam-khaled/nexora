@@ -21,5 +21,13 @@ export async function getTask(projectId: number, taskId: number) {
   if (!task) {
     throw new AppError("Task not found", 404, ERROR_CODES.NOT_FOUND);
   }
-  return task;
+  return {
+    id: task.id,
+    title: task.title,
+    description: task.description,
+    priority: task.priority,
+    assignedTo: task.assignedTo,
+    dueDate: task.dueDate,
+    status: task.status,
+  };
 }

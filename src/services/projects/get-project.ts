@@ -1,6 +1,6 @@
 import { AppError } from "@/errors/app-error";
 import { requireAuth } from "@/auth";
-import { ROLES } from "@/constants";
+import { ROLES, ERROR_CODES } from "@/constants";
 import {
   findProjectById,
   findProjectMember,
@@ -12,11 +12,11 @@ export async function getProject(id: number) {
   const currentUser = await requireAuth();
   const project = await findProjectById(id, currentUser.companyId);
   if (!project) {
-    throw new AppError("Project not found", 404);
+    throw new AppError("Project not found", 404, ERROR_CODES.NOT_FOUND);
   }
   const projectMember = await findProjectMember(currentUser.id, id);
   if (!projectMember && currentUser.role !== ROLES.OWNER) {
-    throw new AppError("You are not a member of this project", 403);
+    throw new AppError("You are not a member of this project", 403, ERROR_CODES.FORBIDDEN);
   }
   const [membersCount, tasksCount] = await Promise.all([
     countProjectMembers(project.id),

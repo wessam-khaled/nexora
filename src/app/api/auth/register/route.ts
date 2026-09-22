@@ -7,8 +7,8 @@ export async function POST(request: Request) {
   try {
     const body = await request.json();
     const result = validate(registerSchema, body);
-    const { newUser, newCompany } = await register(result);
-    return successResponse({ data: { newUser, newCompany }, statusCode: 201 });
+    const { user, company } = await register(result);
+    return successResponse({ data: { user, company }, statusCode: 201 });
   } catch (error) {
     return handleError(error);
   }

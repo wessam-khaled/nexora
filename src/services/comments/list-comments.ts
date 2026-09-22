@@ -30,8 +30,6 @@ export async function listComments(taskId: number, projectId: number) {
       id: true,
       content: true,
       createdAt: true,
-      userId: true,
-
       user: {
         select: {
           id: true,

@@ -8,7 +8,7 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
         const { id, taskId } = await params;
         const result = validate(getTaskSchema, { projectId: id, taskId: taskId });
         const task = await getTask(result.projectId, result.taskId);
-        return successResponse({ data: task });
+        return successResponse({ data: { task } });
     }catch(error){
         return handleError(error);
     }
@@ -20,8 +20,8 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ id
         const data = await request.json();
         const idSchema = validate(getTaskSchema, { projectId: id, taskId: taskId });
         const result = validate(updateTaskSchema, data);
-        const updatedTask = await updateTask( idSchema.projectId, idSchema.taskId, result);
-        return successResponse({ data: updatedTask });
+        const task = await updateTask( idSchema.projectId, idSchema.taskId, result);
+        return successResponse({ data: { task }});
     }catch(error){
         return handleError(error);
     }

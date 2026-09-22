@@ -69,7 +69,15 @@ export async function updateTask(
       },
       data,
     });
-    return updatedTask;
+    return {
+      id: updatedTask.id,
+      title: updatedTask.title,
+      description: updatedTask.description,
+      priority: updatedTask.priority,
+      assignedTo: updatedTask.assignedTo,
+      dueDate: updatedTask.dueDate,
+      status: updatedTask.status,
+    };
   }
   if (task.assignedTo === currentUser.id) {
     const fields = Object.keys(data);
@@ -86,6 +94,14 @@ export async function updateTask(
       },
       data,
     });
-    return updatedTask;
+    return {
+      id: updatedTask.id,
+      title: updatedTask.title,
+      description: updatedTask.description,
+      priority: updatedTask.priority,
+      assignedTo: updatedTask.assignedTo,
+      dueDate: updatedTask.dueDate,
+      status: updatedTask.status,
+    };
   }
 }

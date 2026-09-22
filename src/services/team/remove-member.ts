@@ -27,4 +27,5 @@ export async function removeMember(memberId: number) {
       id: memberId,
     },
   });
+  return "Member removed successfully";
 }

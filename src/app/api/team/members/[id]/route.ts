@@ -23,7 +23,7 @@ export async function DELETE(
     const { id } = await params;
     const result = validate(memberIdSchema, { id });
     await removeMember(result.id);
-    return successResponse({ data: { id: result.id } });
+    return successResponse({ data: { removeMember} });
   } catch (error) {
     return handleError(error);
   }

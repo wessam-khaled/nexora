@@ -33,7 +33,6 @@ export async function login(input: LoginInput) {
       email: user.email,
       role: user.role,
       companyId: user.companyId,
-      createdBy: user.createdBy,
     },
   };
 }

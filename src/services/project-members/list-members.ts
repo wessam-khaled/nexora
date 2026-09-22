@@ -36,14 +36,12 @@ export async function listMembers(projectId: number) {
       },
     },
   });
-  return {
-    members: members.map((member) => {
-      return {
-        id: member.id,
-        name: member.name,
-        email: member.email,
-        projectRole: member.projectMembers[0].projectRole,
-      };
-    }),
-  };
+  return members.map((member) => {
+    return {
+      id: member.id,
+      name: member.name,
+      email: member.email,
+      projectRole: member.projectMembers[0].projectRole,
+    };
+  });
 }

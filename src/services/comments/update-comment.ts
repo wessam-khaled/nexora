@@ -57,5 +57,8 @@ export async function updateComment(
       content: data.content,
     },
   });
-  return updatedComment;
+  return {
+    id: updatedComment.id,
+    content: updatedComment.content,
+  };
 }

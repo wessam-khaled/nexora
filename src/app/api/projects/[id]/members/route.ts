@@ -22,14 +22,10 @@ export async function POST(
     const { id } = await params;
     const { userId, role } = await request.json();
     const result = validate(addMemberSchema, { projectId: id, userId, role });
-    const membership = await addMember(result);
+    const member = await addMember(result);
 
     return successResponse({
-      data: {
-        userId: membership.userId,
-        projectId: membership.projectId,
-        projectRole: membership.projectRole,
-      },
+      data: { member },
     });
   } catch (error) {
     return handleError(error);
@@ -62,12 +58,12 @@ export async function PATCH(
       userId,
       role,
     });
-    const changeProjectRole = await changeProjectMemberRole(
+    const member = await changeProjectMemberRole(
       result.projectId,
       result.userId,
       result.role,
     );
-    return successResponse({ data: { role: changeProjectRole.projectRole } });
+    return successResponse({ data: { member } });
   } catch (error) {
     return handleError(error);
   }
@@ -85,9 +81,7 @@ export async function DELETE(
       userId: userId,
     });
     await removeProjectMember(result.userId, result.projectId);
-    return successResponse({
-      data: { message: "Member removed successfully" },
-    });
+    return successResponse({ data: { message: removeProjectMember } });
   } catch (error) {
     return handleError(error);
   }

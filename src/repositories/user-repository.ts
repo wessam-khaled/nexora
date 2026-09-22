@@ -3,15 +3,16 @@ import { prisma } from "@/lib/prisma";
 export async function findUserByEmail(email: string) {
   return prisma.user.findUnique({
     where: {
-      email: email,
+      email,
     },
   });
 }
 
-export async function findUserById(id: number) {
+export async function findUserById(id: number, companyId: number) {
   return prisma.user.findUnique({
     where: {
-      id: id,
+      id,
+      companyId,
     },
   });
 }

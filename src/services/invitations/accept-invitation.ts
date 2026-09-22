@@ -67,7 +67,6 @@ export async function acceptInvitation(input: AcceptInvitationInput) {
       email: result.newUser.email,
       role: result.newUser.role,
       companyId: result.newUser.companyId,
-      createdBy: result.newUser.createdBy,
     },
   };
 }

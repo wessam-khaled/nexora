@@ -8,8 +8,8 @@ export async function PATCH(request: Request, { params } : { params: Promise<{ i
         const { id } = await params;
         const { role } = await request.json();
         const result = validate(changeMemberRoleSchema, { memberId: id, role });
-        await changeMemberRole(result.memberId, result.role);
-        return successResponse({ data: { role: result.role } });
+        const member = await changeMemberRole(result.memberId, result.role);
+        return successResponse({ data: { member } });
     }catch(error){
         return handleError(error);
     }

@@ -1,8 +1,9 @@
 import { prisma } from "@/lib/prisma";
-import { requireAuth } from "@/auth/require-auth";
+import { requireRole } from "@/auth";
+import { ROLES } from "@/constants";
 
 export async function listMembers() {
-  const user = await requireAuth();
+  const user = await requireRole([ROLES.ADMIN, ROLES.OWNER]);
   return prisma.user.findMany({
     where: {
       companyId: user.companyId,

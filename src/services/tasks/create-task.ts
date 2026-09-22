@@ -30,7 +30,10 @@ export async function createTask(input: {
     throw new AppError("Forbidden", 403, ERROR_CODES.FORBIDDEN);
   }
   if (input.assignedTo) {
-    const assignedTo = await findUserById(input.assignedTo);
+    const assignedTo = await findUserById(
+      input.assignedTo,
+      currentUser.companyId,
+    );
     if (!assignedTo || assignedTo.companyId !== currentUser.companyId) {
       throw new AppError(
         "Assigned to user not found",
@@ -59,7 +62,7 @@ export async function createTask(input: {
       );
     }
   }
-  return prisma.task.create({
+  const task = await prisma.task.create({
     data: {
       title: input.title,
       description: input.description,
@@ -71,4 +74,13 @@ export async function createTask(input: {
       createdBy: currentUser.id,
     },
   });
+  return {
+    id: task.id,
+    title: task.title,
+    description: task.description,
+    priority: task.priority,
+    assignedTo: task.assignedTo,
+    dueDate: task.dueDate,
+    status: task.status,
+  };
 }

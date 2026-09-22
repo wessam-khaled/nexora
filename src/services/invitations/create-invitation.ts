@@ -47,7 +47,7 @@ export async function createInvitation(input: CreateInvitationInput) {
   return {
     invitation: {
       id: invitation.id,
-      token: token,
+      token,
     },
   };
 }

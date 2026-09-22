@@ -14,8 +14,8 @@ export async function PATCH(
     const body = await request.json();
     const idSchema = validate(commentIdSchema, { projectId: id, taskId: taskId, commentId: commentId });
     const result = validate(updateCommentSchema, body);
-    const updatedComment = await updateComment( idSchema.projectId, idSchema.taskId, idSchema.commentId, result);
-    return successResponse({ data: updatedComment });
+    const comment = await updateComment( idSchema.projectId, idSchema.taskId, idSchema.commentId, result);
+    return successResponse({ data: {comment} });
   } catch (error) {
     return handleError(error);
   }

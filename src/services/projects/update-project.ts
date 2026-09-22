@@ -27,5 +27,10 @@ export async function updateProject(id: number, data: {
       },
       data,
     });
-    return updatedProject;
+    return {
+      id: updatedProject.id,
+      name: updatedProject.name,
+      description: updatedProject.description,
+      status: updatedProject.status,
+    };
 }

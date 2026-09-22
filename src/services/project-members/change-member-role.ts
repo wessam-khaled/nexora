@@ -44,5 +44,9 @@ export async function changeProjectMemberRole(
       projectRole: role,
     },
   });
-  return changeProjectMemberRole;
+  return {
+    userId: changeProjectMemberRole.userId,
+    projectId: changeProjectMemberRole.projectId,
+    projectRole: changeProjectMemberRole.projectRole,
+  };
 }

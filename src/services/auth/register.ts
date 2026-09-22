@@ -37,15 +37,13 @@ export async function register(input: RegisterInput) {
   });
   await setSessionCookie(result.newSession.id);
   return { 
-    newUser: {
+    user: {
       id: result.newUser.id,
       name: result.newUser.name,
       email: result.newUser.email,
       role: result.newUser.role,
-      companyId: result.newUser.companyId,
-      createdBy: result.newUser.createdBy,
     },
-    newCompany: {
+    company: {
       id: result.newCompany.id,
       name: result.newCompany.name,
     }
