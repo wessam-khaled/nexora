@@ -4,15 +4,15 @@ import {
   projectIdSchema,
   changeProjectMemberRoleSchema,
   removeMemberSchema,
-} from "@/validators";
+} from "@/backend/validators";
 import {
   addMember,
   listMembers,
   changeProjectMemberRole,
   removeProjectMember,
-} from "@/services/project-members";
-import { successResponse } from "@/lib/response";
-import { handleError } from "@/errors/error-handler";
+} from "@/backend/services/project-members";
+import { successResponse } from "@/backend/lib/response";
+import { handleError } from "@/backend/errors/error-handler";
 
 export async function POST(
   request: Request,
@@ -80,8 +80,8 @@ export async function DELETE(
       projectId: id,
       userId: userId,
     });
-    await removeProjectMember(result.userId, result.projectId);
-    return successResponse({ data: { message: removeProjectMember } });
+    const massage = await removeProjectMember(result.userId, result.projectId);
+    return successResponse({ data: { message: massage } });
   } catch (error) {
     return handleError(error);
   }

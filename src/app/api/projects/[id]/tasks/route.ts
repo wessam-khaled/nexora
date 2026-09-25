@@ -1,7 +1,11 @@
-import { validate, createTaskSchema, projectIdSchema } from "@/validators";
-import { createTask, listTasks } from "@/services/tasks";
-import { successResponse } from "@/lib/response";
-import { handleError } from "@/errors/error-handler";
+import {
+  validate,
+  createTaskSchema,
+  projectIdSchema,
+} from "@/backend/validators";
+import { createTask, listTasks } from "@/backend/services/tasks";
+import { successResponse } from "@/backend/lib/response";
+import { handleError } from "@/backend/errors/error-handler";
 
 export async function POST(
   request: Request,
@@ -21,13 +25,16 @@ export async function POST(
   }
 }
 
-export async function GET(request: Request, { params }: { params: Promise<{ id: string }> }) {
+export async function GET(
+  request: Request,
+  { params }: { params: Promise<{ id: string }> },
+) {
   try {
     const { id } = await params;
     const result = validate(projectIdSchema, { id });
     const tasks = await listTasks(result.id);
     return successResponse({ data: { tasks } });
-  }catch (error) {
+  } catch (error) {
     return handleError(error);
   }
 }

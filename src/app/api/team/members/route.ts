@@ -1,6 +1,6 @@
-import { listMembers } from "@/services/team/list-members";
-import { successResponse } from "@/lib/response";
-import { handleError } from "@/errors/error-handler";
+import { listMembers } from "@/backend/services/team/list-members";
+import { successResponse } from "@/backend/lib/response";
+import { handleError } from "@/backend/errors/error-handler";
 
 export async function GET() {
   try {
@@ -10,4 +10,3 @@ export async function GET() {
     return handleError(error);
   }
 }
-

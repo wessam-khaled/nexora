@@ -1,14 +1,14 @@
-import { validate, registerSchema } from "@/validators";
-import { register } from "@/services/auth/register";
-import { successResponse } from "@/lib/response";
-import { handleError } from "@/errors/error-handler";
+import { validate, registerSchema } from "@/backend/validators";
+import { register } from "@/backend/services/auth/register";
+import { successResponse } from "@/backend/lib/response";
+import { handleError } from "@/backend/errors/error-handler";
 
 export async function POST(request: Request) {
   try {
     const body = await request.json();
     const result = validate(registerSchema, body);
-    const { user, company } = await register(result);
-    return successResponse({ data: { user, company }, statusCode: 201 });
+    await register(result);
+    return successResponse({ data: "Registation successful", statusCode: 201 });
   } catch (error) {
     return handleError(error);
   }

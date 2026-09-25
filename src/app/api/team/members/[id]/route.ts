@@ -1,10 +1,13 @@
-import { memberIdSchema, validate } from "@/validators";
-import { removeMember } from "@/services/team/remove-member";
-import { getMember } from "@/services/team/get-member";
-import { successResponse } from "@/lib/response";
-import { handleError } from "@/errors/error-handler";
+import { memberIdSchema, validate } from "@/backend/validators";
+import { removeMember } from "@/backend/services/team/remove-member";
+import { getMember } from "@/backend/services/team/get-member";
+import { successResponse } from "@/backend/lib/response";
+import { handleError } from "@/backend/errors/error-handler";
 
-export async function GET(request: Request, { params } : { params: Promise<{ id: string }>}) {
+export async function GET(
+  request: Request,
+  { params }: { params: Promise<{ id: string }> },
+) {
   try {
     const { id } = await params;
     const result = validate(memberIdSchema, { id });
@@ -23,7 +26,7 @@ export async function DELETE(
     const { id } = await params;
     const result = validate(memberIdSchema, { id });
     await removeMember(result.id);
-    return successResponse({ data: { removeMember} });
+    return successResponse({ data: { removeMember } });
   } catch (error) {
     return handleError(error);
   }

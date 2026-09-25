@@ -1,7 +1,7 @@
-import { validate, acceptInvitationSchema } from "@/validators";
-import { acceptInvitation } from "@/services/invitations/accept-invitation";
-import { successResponse } from "@/lib/response";
-import { handleError } from "@/errors/error-handler";
+import { validate, acceptInvitationSchema } from "@/backend/validators";
+import { acceptInvitation } from "@/backend/services/invitations/accept-invitation";
+import { successResponse } from "@/backend/lib/response";
+import { handleError } from "@/backend/errors/error-handler";
 
 export async function POST(request: Request) {
   try {

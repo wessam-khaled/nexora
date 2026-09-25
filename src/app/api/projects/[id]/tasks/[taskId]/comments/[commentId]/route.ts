@@ -1,7 +1,11 @@
-import { validate, updateCommentSchema, commentIdSchema } from "@/validators";
-import { updateComment, deleteComment } from "@/services/comments";
-import { successResponse } from "@/lib/response";
-import { handleError } from "@/errors/error-handler";
+import {
+  validate,
+  updateCommentSchema,
+  commentIdSchema,
+} from "@/backend/validators";
+import { updateComment, deleteComment } from "@/backend/services/comments";
+import { successResponse } from "@/backend/lib/response";
+import { handleError } from "@/backend/errors/error-handler";
 
 export async function PATCH(
   request: Request,
@@ -12,10 +16,19 @@ export async function PATCH(
   try {
     const { id, taskId, commentId } = await params;
     const body = await request.json();
-    const idSchema = validate(commentIdSchema, { projectId: id, taskId: taskId, commentId: commentId });
+    const idSchema = validate(commentIdSchema, {
+      projectId: id,
+      taskId: taskId,
+      commentId: commentId,
+    });
     const result = validate(updateCommentSchema, body);
-    const comment = await updateComment( idSchema.projectId, idSchema.taskId, idSchema.commentId, result);
-    return successResponse({ data: {comment} });
+    const comment = await updateComment(
+      idSchema.projectId,
+      idSchema.taskId,
+      idSchema.commentId,
+      result,
+    );
+    return successResponse({ data: { comment } });
   } catch (error) {
     return handleError(error);
   }
@@ -26,13 +39,21 @@ export async function DELETE(
   {
     params,
   }: { params: Promise<{ id: string; taskId: string; commentId: string }> },
-){
-  try{
+) {
+  try {
     const { id, taskId, commentId } = await params;
-    const idSchema = validate(commentIdSchema, { projectId: id, taskId: taskId, commentId: commentId });
-    const deletedComment = await deleteComment(idSchema.projectId, idSchema.taskId, idSchema.commentId);
+    const idSchema = validate(commentIdSchema, {
+      projectId: id,
+      taskId: taskId,
+      commentId: commentId,
+    });
+    const deletedComment = await deleteComment(
+      idSchema.projectId,
+      idSchema.taskId,
+      idSchema.commentId,
+    );
     return successResponse({ data: deletedComment });
-  }catch(error){
+  } catch (error) {
     return handleError(error);
   }
 }
